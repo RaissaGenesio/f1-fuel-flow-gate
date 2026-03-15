@@ -79,4 +79,4 @@ Link do vídeo no YouTube: [COLE_AQUI_O_LINK]
 
 ## Autor
 
-Seu nome aqui
+Raissa Genesio da Silva
