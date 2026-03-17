@@ -67,4 +67,4 @@ Esse modo só é ativado quando o botão cheat + fail é acionado
 ## 10. Montagem
 
 ## 11. Vídeo
-Link: COLE_AQUI_O_LINK_DO_YOUTUBE
+
