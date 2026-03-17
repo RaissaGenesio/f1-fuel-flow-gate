@@ -1,82 +1,70 @@
-# F1 Fuel Flow Gate
+# F1 Fuel Flow Gate com FreeRTOS no ESP32
+##Alunos Raissa Genesio da Silva, Nicholas ... Gustavo
+## 1. Descrição do projeto
+Este projeto simula o problema do limite de fluxo de combustível da Fórmula 1, no qual um sistema de injeção tenta burlar a fiscalização sincronizando a redução do fluxo exatamente no instante em que o sensor realiza a amostragem.
 
-Projeto da disciplina de Sistemas em Tempo Real para simular a fiscalização de fluxo de combustível na Fórmula 1 utilizando FreeRTOS em um ESP32 programado pela Arduino IDE.
+O sistema foi implementado em ESP32 utilizando FreeRTOS no framework Arduino.
 
-## Objetivo
+## 2. Objetivo
+Implementar um sistema em tempo real com tarefas concorrentes que simule:
+- o sensor de fiscalização;
+- o atuador de injeção de combustível;
+- a lógica de controle por botões;
+- a detecção de violação por LEDs.
 
-O projeto simula um sensor de fiscalização que realiza leituras periódicas do fluxo de combustível e um atuador que tenta manipular esse fluxo para burlar a medição.
-
-## Contexto
-
-Na Fórmula 1, existe um limite regulamentar de fluxo de combustível. Este projeto reproduz a ideia de uma possível tentativa de fraude baseada em sincronização temporal entre o instante de medição do sensor e a atuação do sistema de injeção.
-
-## Hardware Utilizado
-
+## 3. Hardware utilizado
 - ESP32
-- 1 LED verde
-- 1 LED vermelho
-- 1 LED indicador de cheat mode
+- 3 LEDs
 - 2 botões
-- Resistores de 220 ohms
-- Protoboard e jumpers
+- 1 buzzer
+- resistores de 220 ohms para os LEDs
+- jumpers e protoboard
 
-## Arquitetura do Sistema
+## 4. Mapeamento de pinos
+- LED verde: GPIO 25
+- LED vermelho: GPIO 26
+- LED cheat: GPIO 27
+- Botão cheat: GPIO 14
+- Botão fail: GPIO 12
 
-O sistema foi implementado com FreeRTOS usando três tarefas principais:
+## 5. Arquitetura das tarefas
+### TaskSensor
+Tarefa de maior prioridade. Realiza a leitura do fluxo no instante exato de amostragem e decide se o sistema está regular ou em violação.
 
-- **TaskSensor**: realiza a leitura do fluxo no instante de amostragem
-- **TaskInjector**: controla o valor do fluxo de combustível
-- **TaskControl**: lê os botões e define o modo de operação
+### TaskInjector
+Tarefa responsável por simular a injeção de combustível. Em modo cheat, antecipa o instante da amostragem e reduz o fluxo para 100 antes da leitura. Em modo fail, insere atraso proposital e permite a detecção da fraude.
 
-Além disso, foi utilizado um timer de hardware para gerar a base temporal de 1 ms.
+### TaskControl
+Lê os botões e define o modo de operação:
+- Legal
+- Cheat
+- Fail
 
-## Estratégia de Sincronização
+## 6. Estratégia de sincronização
+Foi utilizado um timer de hardware com base de 1 ms.
+- No instante 28 ms do ciclo, a tarefa do injetor é notificada.
+- No instante 30 ms, a tarefa do sensor é notificada.
 
-O sistema usa notificações do FreeRTOS entre a interrupção do timer e as tarefas.
+Dessa forma, o injetor pode se antecipar à leitura do sensor.
 
-- A cada 30 ms ocorre uma leitura oficial do sensor
-- Cerca de 2 ms antes da leitura, o atuador é avisado
-- No modo cheat, o fluxo cai temporariamente para 100 antes da leitura
-- No modo falha, um atraso proposital faz o sensor detectar 120
+## 7. Modos de operação
+### Modo legal
+Fluxo constante em 100.
 
-## Modos de Operação
+### Modo cheat
+Fluxo normalmente em 120, mas cai para 100 no momento certo da leitura.
 
-### 1. Modo Legal
-Fluxo constante em 100 unidades.
+### Modo fail
+Fluxo normalmente em 120, porém o ajuste ocorre atrasado, permitindo que o sensor detecte 120.
+Esse modo só é ativado quando o botão cheat + fail é acionado
 
-### 2. Modo Cheat
-Fluxo normalmente em 120 unidades, mas reduzido para 100 exatamente no instante da medição.
+## 8. Resultados esperados
+- Modo legal: LED verde aceso.
+- Modo cheat: LED verde aceso mesmo com trapaça ativa.
+- Modo fail: LED vermelho aceso por violação detectada.
 
-### 3. Modo Falha
-O sistema tenta burlar a medição, mas introduz atraso na sincronização e o sensor detecta violação.
 
-## Ligações
+## 10. Montagem
 
-- LED verde -> GPIO 25
-- LED vermelho -> GPIO 26
-- LED cheat -> GPIO 27
-- Botão cheat -> GPIO 14
-- Botão fail -> GPIO 12
-
-## Como Executar
-
-1. Instalar a Arduino IDE
-2. Instalar o pacote de placas ESP32
-3. Abrir o arquivo `f1_fuel_flow_gate.ino`
-4. Selecionar a placa ESP32
-5. Compilar e gravar
-6. Abrir o monitor serial em 115200 baud
-
-## Resultados Esperados
-
-- No modo legal, LED verde aceso
-- No modo cheat, LED verde continua aceso, mesmo com fluxo interno acima de 100 na maior parte do tempo
-- No modo falha, LED vermelho acende ao detectar valor acima do limite
-
-## Vídeo de Demonstração
-
-Link do vídeo no YouTube: [COLE_AQUI_O_LINK]
-
-## Autor
-
-Raissa Genesio da Silva
+## 11. Vídeo
+Link: COLE_AQUI_O_LINK_DO_YOUTUBE
