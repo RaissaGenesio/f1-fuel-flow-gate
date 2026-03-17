@@ -67,6 +67,9 @@ Esse modo só é ativado quando o botão cheat + fail é acionado
 ## 10. Montagem
 ![WhatsApp Image 2026-03-17 at 19 01 32](https://github.com/user-attachments/assets/c875f599-ae65-49be-8ce0-41db53c81893)
 
-## 11. Vídeo
+## 11. Diagrama de Blocos
+<img width="8191" height="5118" alt="Hardware Timer-2026-03-17-223136" src="https://github.com/user-attachments/assets/b4057d05-3c60-4b1b-8bc1-4199d2ed69ec" />
+
+## 12. Vídeo
 - LINK DO VIDEO: [https://youtu.be/1aO_Fb6zUOs?si=517HjoHDWltoOjQ4]
 
