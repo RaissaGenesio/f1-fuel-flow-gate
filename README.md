@@ -12,7 +12,7 @@ Implementar um sistema em tempo real com tarefas concorrentes que simule:
 - a lógica de controle por botões;
 - a detecção de violação por LEDs.
 
-## 3. Hardware utilizado
+## 3. Componente utilizados
 - ESP32
 - 3 LEDs
 - 2 botões
