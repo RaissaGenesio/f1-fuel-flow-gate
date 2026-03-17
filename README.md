@@ -65,6 +65,8 @@ Esse modo só é ativado quando o botão cheat + fail é acionado
 
 
 ## 10. Montagem
+![WhatsApp Image 2026-03-17 at 19 01 32](https://github.com/user-attachments/assets/c875f599-ae65-49be-8ce0-41db53c81893)
 
 ## 11. Vídeo
+- LINK DO VIDEO: [https://youtu.be/1aO_Fb6zUOs?si=517HjoHDWltoOjQ4]
 
